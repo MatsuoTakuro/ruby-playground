@@ -1,4 +1,13 @@
-def      foo(a,       b,       c = 3,   d = 4,    *ef,      g,       h,       i: 9,    j: 10,  **kl,          &block)
-       "a: #{a}, b: #{b}, c: #{c}, d: #{d}, ef: #{ef}, g: #{g}, h: #{h}, i: #{i}, j: #{j}, kl: #{kl}, block: #{block}"
-end
-puts foo(    1,       2,       3,       4,        5,6,      7,       8,       i: 9,    j: 10,  k:11,l:12)     { 13 }
+# https://qiita.com/jnchito/items/64c3fdc53766ac6f2008
+html = <<-HTML
+  <select name="game_console">
+  <option value="none"></option>
+  <option value="wii_u" selected>Wii U</option>
+  <option value="ps4">プレステ4</option>
+  <option value="gb">ゲームボーイ</option>
+  </select>
+HTML
+
+replaced = html.gsub(%r{<option value="(\w+)"(?: selected)?>(.*?)</option>}, '\1,\2')
+
+puts replaced
