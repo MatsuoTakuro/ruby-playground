@@ -1,26 +1,45 @@
-# https://qiita.com/jnchito/items/6f0c885c1c4929092578
-text = <<-TEXT
-def hello(name)
-  puts "Hello, \#{name}!"
-end
+# https://qiita.com/jnchito/items/b0839f4f4651c29da408
+puts "\n------------------------------------------------\n\n"
 
-hello('Alice')
-     
-hello('Bob')
-	
-hello('Carol')
+text = <<-TEXT
+type=zip; filename=users.zip; size=1024;
+type=xml; filename=posts.xml; size=2048;
 TEXT
-puts text.gsub(/^[ \t]+$/, '')
+puts text.scan(/(?<=filename=)[^;]+/)
 
 puts "\n------------------------------------------------\n\n"
 
 text2 = <<-TEXT
-Feb 14 07:33:02 app/web.1:  Completed 302 Found ...
-Feb 14 07:36:46 heroku/api:  Starting process ...
-Feb 14 07:36:50 heroku/scheduler.7625:  Starting ...
-Feb 14 07:36:50 heroku/scheduler.7625:  State ...
-Feb 14 07:36:54 heroku/router:  at=info method=...
-Feb 14 07:36:54 app/web.1:  Started HEAD "/" ...
-Feb 14 07:36:54 app/web.1:  Completed 200 ...
+John:guitar, George:guitar, Paul:bass, Ringo:drum
+Freddie:vocal, Brian:guitar, John:bass, Roger:drum
 TEXT
-puts text2.gsub(%r{^.+heroku/(api|scheduler).+\n}, '')
+puts text2.scan(/\w+(?=:bass)/)
+
+puts "\n------------------------------------------------\n\n"
+
+text3 = <<-TEXT
+東京都
+千葉県
+神奈川県
+埼玉都
+TEXT
+puts text3.gsub(/(?<!東京)都/, '県')
+
+puts "\n------------------------------------------------\n\n"
+
+text4 = <<-TEXT
+つぼ焼きにしたサザエはおいしい
+日曜日にやってるサザエさんは面白い
+TEXT
+puts text4.gsub(/(サザエ(?!さん))/, '\1(魚介)')
+
+puts "\n------------------------------------------------\n\n"
+
+text5 = <<-TEXT
+You say yes. - @jnchito 8s
+I say no. - @BarackObama 12m
+You say stop. - @dhh 7h
+I say go go go. - @ladygaga Feb 20
+Hello, goodbye. - @BillGates 11 Apr 2015
+TEXT
+puts text5.scan(/^(.*) - (@\w+) (\d+[smh]|(?:\d+ )?[A-Z][a-z]{2} \d+)/)
