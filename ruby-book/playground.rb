@@ -1,32 +1,40 @@
-class Parent
-  def initialize
-    @first  = 1
-    @second = 2
-    @third  = 3
+class Product
+  @name = 'Product'
+
+  def self.name
+    @name
   end
 
-  def number
-    "#{@first}.#{@second}.#{@third}"
-  end
-end
-
-class Child < Parent
-  def initialize
-    super
-    @hour   = 6
-    @minute = 30
-    @second = 59
+  def initialize(name)
+    @name = name
   end
 
-  def time
-    "#{@hour}:#{@minute}:#{@second}"
+  def name
+    @name
   end
 end
 
-parent = Parent.new
-puts parent.number
+class DVD < Product
+  @name = 'DVD'
 
-child = Child.new
-puts child.time
+  def self.name
+    @name
+  end
 
-puts child.number
+  def upcase_name
+    @name.upcase
+  end
+end
+
+puts Product.name
+puts DVD.name
+
+product = Product.new('An great movie')
+puts product.name
+
+dvd = DVD.new('An awesome film')
+puts dvd.name
+puts dvd.upcase_name
+
+puts Product.name
+puts DVD.name
