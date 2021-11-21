@@ -1,30 +1,21 @@
-class Product
-  attr_reader :name, :price
+class User
+  attr_reader :name, :weight
+  protected :weight
 
-  def initialize(name, price)
-    @name  = name
-    @price = price
+  def initialize(name, weight)
+    @name = name
+    @weight = weight
   end
 
-  def to_s
-    "name: #{name}, price: #{price}"
-  end
-end
-
-class DVD < Product
-  attr_reader :running_time
-
-  def initialize(name, price, running_time)
-    super(name, price)
-    @running_time = running_time
-  end
-
-  def to_s
-    "#{super}, running_time: #{running_time}"
+  def heavier_than?(other_user)
+    other_user.weight < @weight
   end
 end
 
-product = Product.new('A great movie', 1000)
-puts product.to_s
-dvd = DVD.new('A great movie', 1000, 120)
-puts dvd.to_s
+alice = User.new('Alice', 50)
+bob = User.new('Bob', 60)
+
+puts alice.heavier_than?(bob)
+puts bob.heavier_than?(alice)
+
+puts alice.weight
