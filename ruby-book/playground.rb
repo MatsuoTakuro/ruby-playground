@@ -1,28 +1,36 @@
+module Loggable
+
+  def log(text)
+    puts "[LOG] #{text}"
+  end
+end
+
 class Product
-  def initialize(name, price)
-    @name = name
-    @price = price
+  extend Loggable
+
+  log 'Defined Product class.'
+
+  def self.create_products(names)
+    log 'crete_products is called.'
   end
 
-  def stock?
-    raise 'Must implement stock? in subclass'
-  end
-
-  def display_text
-    stock = stock? ? 'exists' : 'none'
-    puts "Item's name: #{@name}, price: #{@price}, stock: #{stock}"
+  def title
+    puts 'A greate movie'
   end
 end
 
-class DVD < Product
-  def stock?
-    true
+class User
+  include Loggable
+  def name
+    log 'name is called.'
+    puts 'Alice'
   end
 end
 
-product = Product.new('A great film', 1000)
+product = Product.new
+product.title
+Product.create_products([])
+Product.log('Hello.')
 
-# product.display_text
-
-dvd = DVD.new('An awesome film', 3000)
-dvd.display_text
+user = User.new
+user.name
