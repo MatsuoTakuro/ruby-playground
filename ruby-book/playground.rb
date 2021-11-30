@@ -1,19 +1,14 @@
-module Baseball
-  class Second
-    def initialize(player, uniform_number)
-      @player = player
-      @uniform_number = uniform_number
-    end
+module AwesomeApi
+  @base_url = ''
+  @debug_mode = false
+
+  class << self
+    attr_accessor :base_url, :debug_mode
   end
 end
 
-module Clock
-  class Second
-    def initialize(digits)
-      @digits = digits
-    end
-  end
-end
+AwesomeApi.base_url = 'http://example.com'
+AwesomeApi.debug_mode = true
 
-puts Baseball::Second.new('Alice', 13)
-puts Clock::Second.new(13)
+puts AwesomeApi.base_url
+puts AwesomeApi.debug_mode
