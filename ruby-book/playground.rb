@@ -1,29 +1,30 @@
-require 'singleton'
-
-class Configuration
-  include Singleton
-
-  attr_accessor :base_url, :debug_mode
-
-  def initialize
-    @base_url = ''
-    @debug_mode = false
+module A
+  def to_s
+    "<A> #{super}"
   end
 end
 
-# config = Configuration.new
-config = Configuration.instance
+module B
+  def to_s
+    "<B> #{super}"
+  end
+end
 
-config.base_url = 'http://example.com'
-config.debug_mode = true
+class Product
+  def to_s
+    "<Product> #{super}"
+  end
+end
 
-puts config.base_url
-puts config.debug_mode
+class DVD < Product
+  include A
+  include B
 
-other = Configuration.instance
-puts other.base_url
-puts other.debug_mode
+  def to_s
+    "<DVD> #{super}"
+  end
+end
 
-puts config.object_id
-puts other.object_id
-puts config.equal?(other)
+dvd = DVD.new
+puts dvd.to_s
+puts DVD.ancestors
