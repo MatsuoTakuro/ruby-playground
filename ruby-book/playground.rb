@@ -1,18 +1,26 @@
-class Product
-  def name
-    "A greate film"
+module StringShuffle
+  refine String do
+    def shuffle
+      chars.shuffle.join
+    end
   end
 end
 
-module NameDecorator
-  def name
-    "<< #{super} >>"
+# puts 'Alice'.shuffle
+
+class User
+  using StringShuffle
+
+  def initialize(name)
+    @name = name
+  end
+
+  def shuffled_name
+    @name.shuffle
   end
 end
 
-class Product
-  prepend NameDecorator
-end
-
-product = Product.new
-puts product.name
+user = User.new('Alice')
+puts user.shuffled_name
+# puts user.shuffle
+# puts 'Alice'.shuffle
