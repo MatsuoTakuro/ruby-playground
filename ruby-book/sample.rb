@@ -1,23 +1,29 @@
-def method_1
-  puts 'method_1 starts.'
-  begin
-    method_2
-  rescue
-    puts 'An exception was raised.'
-  end
-  puts 'method_1 ends.'
-end
-
-def method_2
-  puts 'method_2 starts.'
-  method_3
-  puts 'method_2 ends.'
-end
-
-def method_3
-  puts 'method_3 starts.'
+retry_count = 0
+begin
+  puts 'process begins.'
   1 / 0
-  puts 'method_3 ends.'
+rescue
+  retry_count += 1
+  if retry_count <= 3
+    puts "retry this process #{retry_count}"
+    retry
+  else
+    puts 'failed to retry it'
+  end
 end
 
-method_1
+def currency_of(country)
+  case country
+  when :japan
+    'yen'
+  when :us
+    'dollar'
+  when :india
+    'rupee'
+  else
+    raise ArgumentError, "invalid country #{country}"
+  end
+end
+
+puts currency_of(:japan)
+puts currency_of(:italy)
