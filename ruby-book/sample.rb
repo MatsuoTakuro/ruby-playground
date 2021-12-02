@@ -1,29 +1,16 @@
-retry_count = 0
-begin
-  puts 'process begins.'
-  1 / 0
-rescue
-  retry_count += 1
-  if retry_count <= 3
-    puts "retry this process #{retry_count}"
-    retry
-  else
-    puts 'failed to retry it'
+require 'date'
+
+def convert_heisei_to_date(heisei_text)
+  m = heisei_text.match(/平成(?<jp_year>\d+)年(?<month>\d+)月(?<day>\d+)日/)
+  year = m[:jp_year].to_i + 1998
+  month = m[:month].to_i
+  day = m[:day].to_i
+  begin
+    Date.new(year, month, day)
+  rescue ArgumentError
+    nil
   end
 end
 
-def currency_of(country)
-  case country
-  when :japan
-    'yen'
-  when :us
-    'dollar'
-  when :india
-    'rupee'
-  else
-    raise ArgumentError, "invalid country #{country}"
-  end
-end
-
-puts currency_of(:japan)
-puts currency_of(:italy)
+puts convert_heisei_to_date('平成28年12月31日')
+puts convert_heisei_to_date('平成28年99月99日')
