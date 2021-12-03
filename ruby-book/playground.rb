@@ -1,28 +1,44 @@
-class NoCountryError < StandardError
-  attr_reader :country
-
-  def initialize(message, country)
-    @coutry = country
-    super("#{message}, #{country}")
-  end
+def greeting1
+  puts 'Good Morning1'
+  yield if block_given?
+  puts 'Good Evening1'
 end
 
-def currency_of(country)
-  case country
-  when :japan
-    'yen'
-  when :us
-    'dollar'
-  when :india
-    'rupee'
-  else
-    raise NoCountryError.new('Invalid country name; ', country)
-  end
+greeting1
+
+greeting1 do
+  puts 'Hello1'
 end
 
-begin
-  currency_of(:italy)
-rescue NoCountryError => e
-  puts e.message
-  puts e.country
+def greeting2
+  puts 'Good Morning2'
+  text = yield 'Hello2 '
+  puts text
+  puts 'Good Evening2'
+end
+
+greeting2 do |text|
+  text * 2
+end
+
+def greeting3
+  puts 'Good Morning3'
+  text = yield 'Hello3', 12345
+  puts text
+  puts 'Good Evening3'
+end
+
+greeting3 do |text|
+  text * 2
+end
+
+def greeting4
+  puts 'Good Morning4'
+  text = yield 'Hello4'
+  puts text
+  puts 'Good Evening4'
+end
+
+greeting4 do |text, other|
+  text * 2 + other.inspect
 end
