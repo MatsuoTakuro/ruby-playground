@@ -1,15 +1,28 @@
-def fizz_buzz(n)
-  if (n % 15).zero?
-    'Fizz Buzz'
-  elsif (n % 3).zero?
-    'Fizz'
-  elsif (n % 5).zero?
-    'Buzz'
-  else
-    n.to_s
+class NoCountryError < StandardError
+  attr_reader :country
+
+  def initialize(message, country)
+    @coutry = country
+    super("#{message}, #{country}")
   end
-rescue => e
-  puts "#{e.class}, #{e.message}"
 end
 
-puts fizz_buzz(nil)
+def currency_of(country)
+  case country
+  when :japan
+    'yen'
+  when :us
+    'dollar'
+  when :india
+    'rupee'
+  else
+    raise NoCountryError.new('Invalid country name; ', country)
+  end
+end
+
+begin
+  currency_of(:italy)
+rescue NoCountryError => e
+  puts e.message
+  puts e.country
+end
