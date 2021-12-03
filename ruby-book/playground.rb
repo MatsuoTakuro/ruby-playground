@@ -1,13 +1,15 @@
-def some_method(n)
-  begin
-    1 / n
-    'OK'
-  rescue
-    'error'
-  ensure
-    'ensure'
+def fizz_buzz(n)
+  if (n % 15).zero?
+    'Fizz Buzz'
+  elsif (n % 3).zero?
+    'Fizz'
+  elsif (n % 5).zero?
+    'Buzz'
+  else
+    n.to_s
   end
+rescue => e
+  puts "#{e.class}, #{e.message}"
 end
 
-puts some_method(1)
-puts some_method(0)
+puts fizz_buzz(nil)
