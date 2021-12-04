@@ -1,21 +1,20 @@
-def greeting_ja(&block)
-  texts = ['Ohayo', 'Konnichiwa', 'Konbanwa']
-  greeting_common(texts, &block)
+def greeting(&block)
+  puts 'Good Morning'
+  text =
+    case block.arity
+    when 1
+      yield 'Hello'
+    when 2
+      yield 'Hel', 'lo'
+    end
+  puts text
+  puts 'Good Evening'
 end
 
-def greeting_en(&block)
-  texts = ['Good Morning', 'Hello', 'Good Evening']
-  greeting_common(texts, &block)
-end
-
-def greeting_common(texts, &block)
-  puts texts[0]
-  puts block.call(texts[1])
-  puts texts[2]
-end
-
-greeting_ja do |text|
+greeting do |text|
   text * 2
 end
 
-greeting_en(&:upcase)
+greeting do |text1, text2|
+  text1 * 2 + text2 * 2
+end
