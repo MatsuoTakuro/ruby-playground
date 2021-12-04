@@ -1,20 +1,9 @@
-def greeting(&block)
-  puts 'Good Morning'
-  text =
-    case block.arity
-    when 1
-      yield 'Hello'
-    when 2
-      yield 'Hel', 'lo'
-    end
-  puts text
-  puts 'Good Evening'
-end
+add_proc = proc { |a, b| a.to_i + b.to_i }
+puts add_proc.call(10)
+puts add_proc.call(10, 20)
+puts add_proc.call(10, 20, 30)
 
-greeting do |text|
-  text * 2
-end
-
-greeting do |text1, text2|
-  text1 * 2 + text2 * 2
-end
+add_lamda = ->(a, b) { a.to_i + b.to_i }
+puts add_lamda.call(10)
+puts add_lamda.call(10, 20)
+puts add_lamda.call(10, 20, 30)
