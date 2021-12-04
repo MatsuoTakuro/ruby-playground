@@ -1,44 +1,21 @@
-def greeting1
-  puts 'Good Morning1'
-  yield if block_given?
-  puts 'Good Evening1'
+def greeting_ja(&block)
+  texts = ['Ohayo', 'Konnichiwa', 'Konbanwa']
+  greeting_common(texts, &block)
 end
 
-greeting1
-
-greeting1 do
-  puts 'Hello1'
+def greeting_en(&block)
+  texts = ['Good Morning', 'Hello', 'Good Evening']
+  greeting_common(texts, &block)
 end
 
-def greeting2
-  puts 'Good Morning2'
-  text = yield 'Hello2 '
-  puts text
-  puts 'Good Evening2'
+def greeting_common(texts, &block)
+  puts texts[0]
+  puts block.call(texts[1])
+  puts texts[2]
 end
 
-greeting2 do |text|
+greeting_ja do |text|
   text * 2
 end
 
-def greeting3
-  puts 'Good Morning3'
-  text = yield 'Hello3', 12345
-  puts text
-  puts 'Good Evening3'
-end
-
-greeting3 do |text|
-  text * 2
-end
-
-def greeting4
-  puts 'Good Morning4'
-  text = yield 'Hello4'
-  puts text
-  puts 'Good Evening4'
-end
-
-greeting4 do |text, other|
-  text * 2 + other.inspect
-end
+greeting_en(&:upcase)
