@@ -1,9 +1,17 @@
-add_proc = proc { |a, b| a.to_i + b.to_i }
-puts add_proc.call(10)
-puts add_proc.call(10, 20)
-puts add_proc.call(10, 20, 30)
+def judge(age)
+  adult = Proc.new { |n| n > 20 }
+  child = Proc.new { |n| n < 20 }
 
-add_lamda = ->(a, b) { a.to_i + b.to_i }
-puts add_lamda.call(10)
-puts add_lamda.call(10, 20)
-puts add_lamda.call(10, 20, 30)
+  case age
+    when adult
+      'You are an adult.'
+    when child
+      'You are a child.'
+    else
+      'You are 20 years old.'
+  end
+end
+
+puts judge(25)
+puts judge(18)
+puts judge(20)
