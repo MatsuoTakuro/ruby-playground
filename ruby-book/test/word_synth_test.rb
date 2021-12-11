@@ -1,6 +1,6 @@
 require 'minitest/autorun'
-require './ruby-book/lib/word_synth'
-require './ruby-book/lib/effects'
+require './lib/word_synth'
+require './lib/effects'
 
 class WordSynthTest < Minitest::Test
   def test_play_without_effects

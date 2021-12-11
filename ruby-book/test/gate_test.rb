@@ -1,6 +1,6 @@
 require 'minitest/autorun'
-require './ruby-book/lib/gate'
-require './ruby-book/lib/ticket'
+require './lib/gate'
+require './lib/ticket'
 
 class GateTest < Minitest::Test
   def setup

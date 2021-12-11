@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './ruby-book/lib/rgb'
+require './lib/rgb'
 
 class RgbTest < Minitest::Test
   def test_to_hex

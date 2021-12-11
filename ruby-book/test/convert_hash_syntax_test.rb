@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './ruby-book/lib/convert_hash_syntax'
+require './lib/convert_hash_syntax'
 
 class ConvetHashSyntaxTest < Minitest::Test
   def test_convert_hash_syntax

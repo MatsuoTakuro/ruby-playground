@@ -1,6 +1,6 @@
 require 'minitest/autorun'
-require './ruby-book/lib/team'
-require './ruby-book/lib/bank'
+require './lib/team'
+require './lib/bank'
 
 class DeepFreezableTest < Minitest::Test
   def test_deep_freezable

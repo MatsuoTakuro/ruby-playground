@@ -1,4 +1,4 @@
-require './ruby-book/lib/deep_freezable'
+require './lib/deep_freezable'
 
 class Team
   extend DeepFreezable

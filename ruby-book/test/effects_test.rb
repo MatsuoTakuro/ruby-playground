@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './ruby-book/lib/effects'
+require './lib/effects'
 
 class EffectsTest < Minitest::Test
   def test_reverse
