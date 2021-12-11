@@ -1,62 +1,25 @@
-split_proc = :split.to_proc
-p split_proc
+require 'logger'
 
-p split_proc.call('a-b-c-d d')
-p 'a-b-c-d d'.split
+from = 1
+to = 2
 
-p split_proc.call('a-b-c-d d', '-', 3)
-p 'a-b-c-d d'.split('-', 3)
+distance = p to - from
+p distance
+puts distance
 
-def generate_proc(array)
-  counter = 0
-  Proc.new do
-    counter += 10
-    array << counter
+a = 'hello'.tap { |s| puts "<<#{s}>>" }
+a
+
+'#043c78'.scan(/\w\w/).map(&:hex)
+hexs = '#043c78'.scan(/\w\w/).tap { |rgb| p rgb }.map(&:hex)
+puts hexs
+
+class User
+  def my_name_is_(name)
+    @name = name
+    Logger.new($stderr).debug "an argument \"name\" of my_name_is method: #{@name}"
+    puts "My name is #{@name}."
   end
 end
 
-values = []
-sample_proc = generate_proc(values)
-p values
-
-sample_proc.call
-p values
-
-sample_proc.call
-p values
-
-sample_proc.call
-p values
-
-sample_proc.call
-p values
-
-def proc_return
-  f = Proc.new { |n| return n * 10 }
-  ret = [1, 2, 3].map(&f)
-  "ret: #{ret}"
-end
-
-def lambda_return
-  f = ->(n) { return n * 10 }
-  ret = [1, 2, 3].map(&f)
-  "ret: #{ret}"
-end
-
-puts proc_return
-puts lambda_return
-
-# def proc_break
-#   f = Proc.new { |n| break n * 10 }
-#   ret = [1, 2, 3].map(&f)
-#   "ret: #{ret}"
-# end
-
-def lambda_break
-  f = ->(n) { break n * 10 }
-  ret = [1, 2, 3].map(&f)
-  "ret: #{ret}"
-end
-
-# puts proc_break
-puts lambda_break
+puts User.new.my_name_is_('John')
