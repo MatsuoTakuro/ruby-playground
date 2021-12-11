@@ -18,7 +18,7 @@ class ConvetHashSyntaxTest < Minitest::Test
       }
     TEXT
     actual = convert_hash_syntax(old_syntax)
-    puts actual
+    # puts actual
     assert_equal expected, actual
   end
 end
