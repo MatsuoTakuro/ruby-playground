@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ObscuringReferences2
+class ObscuringReferences
   attr_reader :wheels
 
   def initialize(data)
@@ -8,9 +8,13 @@ class ObscuringReferences2
   end
 
   def diameters
-    data.collect do |wheel|
-      wheel.rim + (wheel.tire * 2)
+    wheels.collect do |wheel|
+      diameter(wheel)
     end
+  end
+
+  def diameter(wheel)
+    wheel.rim + (wheel.tire * 2)
   end
 
   Wheel = Struct.new(:rim, :tire)
@@ -20,3 +24,7 @@ class ObscuringReferences2
     end
   end
 end
+
+data = [[622, 20], [622, 23], [559, 30], [559, 40]]
+
+puts ObscuringReferences.new(data).diameters
