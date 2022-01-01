@@ -9,9 +9,9 @@ class Trip
     @vehicle   = arg[:vehicle]
   end
 
-  # The "mechanism" argument can be any class.
   def prepare(preparers)
     preparers.each do |preparer|
+      # define public interface of "prepare_trip"
       preparer.prepare_trip(self)
     end
   end
@@ -23,8 +23,8 @@ class Trip
   end
 end
 
-# all preparers is ducks reponsing to prepare_trip method
 class Mechanic
+  # Implement public interface of "prepare_trip"
   def prepare_trip(trip)
     trip.bicycles.each { |bicycle| prepare_bicycle(bicycle) }
   end
@@ -35,12 +35,14 @@ class Mechanic
 end
 
 class TripCoordinator
+  # Implement public interface of "prepare_trip"
   def prepare_trip(trip)
     trip.buy_food(trip.customers)
   end
 end
 
 class Driver
+  # Implement public interface of "prepare_trip"
   def prepare_trip(trip)
     vehicle = trip.vehicle
     gas_up(vehicle)
@@ -61,7 +63,3 @@ trip = Trip.new(bicycles: %w[A_bike B_bike C_bike],
                 vehicle: 'A_car')
 
 trip.prepare([Mechanic.new, TripCoordinator.new, Driver.new])
-
-# John = Mechanic.new
-# Kevin = TripCoordinator.new
-# Smith = Driver.new
