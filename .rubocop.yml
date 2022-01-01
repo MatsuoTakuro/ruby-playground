@@ -1,0 +1,5 @@
+Metrics/MethodLength:
+  Enabled: false
+
+# Layout/LineLength:
+#   Enabled: false
