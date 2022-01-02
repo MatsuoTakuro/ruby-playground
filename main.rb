@@ -1,73 +1,109 @@
-# frozen_string_literal: true
-
-module Schedulable
-  attr_writer :schedule
-
-  def schedule
-    @schedule ||= ::Schedule.new
-  end
-
-  def schedulable?(start_date, end_date)
-    !scheduled?(start_date - lead_days, end_date)
-  end
-
-  def scheduled?(start_date, end_date)
-    schedule.scheduled?(self, start_date, end_date)
-  end
-
-  private
-
-  def lead_days
-    0
-  end
-end
-
-class Schedule
-  def scheduled?(schedulable, start_date, end_date)
-    puts "This #{schedulable.class} is not scheduled between #{start_date} and #{end_date}"
-    false
-  end
-end
-
 class Bicycle
-  include Schedulable
+  attr_reader :size, :chain, :tire_size
+
+  def initialize(args = {})
+    @size = args[:size]
+    @chain = args[:chain] || default_chain
+    @tire_size = args[:tire_size] || default_tire_size
+    post_initialize(args)
+  end
+
+  def spares
+    {
+      tire_size: tire_size,
+      chain: chain
+    }
+      .merge(local_spares)
+  end
 
   private
 
-  def lead_days
-    1
+  def post_initialize(_args)
+    nil
+  end
+
+  def local_spares
+    {}
+  end
+
+  def default_chain
+    '10-speed'
+  end
+
+  def default_tire_size
+    raise NotImplementedError,
+          "#{self.class} class cannot still respond to this method."
   end
 end
 
-class Vehicle
-  include Schedulable
+class RoadBike < Bicycle
+  attr_reader :tape_color
 
   private
 
-  def lead_days
-    3
+  def post_initialize(args)
+    @tape_color = args[:tape_color]
+  end
+
+  def local_spares
+    { tape_color: tape_color }
+  end
+
+  def default_tire_size
+    '23'
   end
 end
 
-class Mechanic
-  include Schedulable
+class MountainBike < Bicycle
+  attr_reader :front_shock, :rear_shock
 
   private
 
-  def lead_days
-    4
+  def post_initialize(args)
+    @front_shock = args[:front_shock]
+    @rear_shock = args[:rear_shock]
+  end
+
+  def local_spares
+    { rear_shock: rear_shock }
+  end
+
+  def default_tire_size
+    '2.1'
   end
 end
 
-require 'date'
-starting = Date.parse('2015/09/04')
-ending = Date.parse('2015/09/10')
+class RecumbentBike < Bicycle
+  attr_reader :flag
 
-b = Bicycle.new
-b.schedulable?(starting, ending)
+  private
 
-v = Vehicle.new
-v.schedulable?(starting, ending)
+  def post_initialize(args)
+    @flag = args[:flag]
+  end
 
-m = Mechanic.new
-m.schedulable?(starting, ending)
+  def local_spares
+    { flag: flag }
+  end
+
+  def default_chain
+    '9-speed'
+  end
+
+  def default_tire_size
+    '28'
+  end
+end
+
+road_bike = RoadBike.new(size: 'M',
+                         tape_color: 'Red')
+road_bike.spares
+
+mountain_bike = MountainBike.new(size: 'S',
+                                 front_shock: 'Manitou',
+                                 rear_shock: 'Fox')
+mountain_bike.spares
+
+bent_bike = RecumbentBike.new(size: 'L',
+                              flag: 'tall and orange')
+bent_bike.spares
