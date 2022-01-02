@@ -1,17 +1,10 @@
 # frozen_string_literal: true
 
-class Schedule
-  def scheduled?(schedulable, start_date, end_date)
-    puts "This #{schedulable.class} is not scheduled between #{start_date} and #{end_date}"
-    false
-  end
-end
+module Schedulable
+  attr_writer :schedule
 
-class Bicycle
-  attr_reader :schedule, :size, :chain, :tire_size
-
-  def initialize(**args)
-    @schedule = args[:schedule] || Schedule.new
+  def schedule
+    @schedule ||= ::Schedule.new
   end
 
   def schedulable?(start_date, end_date)
@@ -21,6 +14,23 @@ class Bicycle
   def scheduled?(start_date, end_date)
     schedule.scheduled?(self, start_date, end_date)
   end
+
+  private
+
+  def lead_days
+    0
+  end
+end
+
+class Schedule
+  def scheduled?(schedulable, start_date, end_date)
+    puts "This #{schedulable.class} is not scheduled between #{start_date} and #{end_date}"
+    false
+  end
+end
+
+class Bicycle
+  include Schedulable
 
   private
 
