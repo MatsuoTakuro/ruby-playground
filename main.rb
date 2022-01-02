@@ -1,8 +1,20 @@
 class Bicycle
-  attr_reader :size, :chain, :tire_size
+  attr_reader :size, :parts
 
   def initialize(args = {})
     @size = args[:size]
+    @parts = args[:parts]
+  end
+
+  def spares
+    parts.spares
+  end
+end
+
+class Parts
+  attr_reader :chain, :tire_size
+
+  def initialize(args = {})
     @chain = args[:chain] || default_chain
     @tire_size = args[:tire_size] || default_tire_size
     post_initialize(args)
@@ -36,7 +48,7 @@ class Bicycle
   end
 end
 
-class RoadBike < Bicycle
+class RoadBikeParts < Parts
   attr_reader :tape_color
 
   private
@@ -54,7 +66,7 @@ class RoadBike < Bicycle
   end
 end
 
-class MountainBike < Bicycle
+class MountainBikeParts < Parts
   attr_reader :front_shock, :rear_shock
 
   private
@@ -73,7 +85,7 @@ class MountainBike < Bicycle
   end
 end
 
-class RecumbentBike < Bicycle
+class RecumbentBikeParts < Parts
   attr_reader :flag
 
   private
@@ -95,15 +107,17 @@ class RecumbentBike < Bicycle
   end
 end
 
-road_bike = RoadBike.new(size: 'M',
-                         tape_color: 'Red')
+road_bike = Bicycle.new(size: 'L',
+                        parts: RoadBikeParts.new(tape_color: 'Red'))
+road_bike.size
 road_bike.spares
 
-mountain_bike = MountainBike.new(size: 'S',
-                                 front_shock: 'Manitou',
-                                 rear_shock: 'Fox')
+mountain_bike = Bicycle.new(size: 'L',
+                            parts: MountainBikeParts.new(rear_shock: 'Fox'))
+mountain_bike.size
 mountain_bike.spares
 
-bent_bike = RecumbentBike.new(size: 'L',
-                              flag: 'tall and orange')
+bent_bike = Bicycle.new(size: 'L',
+                        parts: RecumbentBikeParts.new(flag: 'tall and orange'))
+bent_bike.size
 bent_bike.spares
