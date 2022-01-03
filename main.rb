@@ -1,6 +1,5 @@
 require './lib/bicycle'
 require './lib/parts'
-require './lib/part'
 require './lib/parts_factory'
 
 class Main
@@ -22,10 +21,26 @@ class Main
         %w[rear_shock Fox]
       ]
 
+    recumbent_config =
+      [
+        %w[chain 9-speed],
+        %w[tire_size 28],
+        ['flag', 'tall and orange']
+      ]
+
     road_parts = PartsFactory.build(road_config)
-    puts road_parts
+    puts road_parts.inspect
+
+    puts '---------'
     mountain_parts = PartsFactory.build(mountain_config)
-    puts mountain_parts
+    puts mountain_parts.inspect
+
+    puts '---------'
+    recumbent_bike = Bicycle.new(
+      size: 'L',
+      parts: PartsFactory.build(recumbent_config)
+    )
+    puts recumbent_bike.spares
   end
 end
 
