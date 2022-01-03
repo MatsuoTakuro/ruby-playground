@@ -1,42 +1,6 @@
-class Bicycle
-  attr_reader :size, :parts
-
-  def initialize(args = {})
-    @size = args[:size]
-    @parts = args[:parts]
-  end
-
-  def spares
-    parts.spares
-  end
-end
-
-require 'forwardable'
-class Parts
-  extend Forwardable
-  def_delegators :@parts, :size, :each
-  include Enumerable
-
-  attr_reader :parts
-
-  def initialize(parts)
-    @parts = parts
-  end
-
-  def spares
-    parts.select(&:needs_spare)
-  end
-end
-
-class Part
-  attr_reader :name, :description, :needs_spare
-
-  def initialize(args)
-    @name = args[:name]
-    @description = args[:description]
-    @needs_spare = args.fetch(:needs_spare, true)
-  end
-end
+require './lib/bicycle'
+require './lib/parts'
+require './lib/part'
 
 chain         = Part.new(name: 'chain',         description: '10-speed')
 road_tire     = Part.new(name: 'road_tire',     description: '23')
@@ -54,3 +18,5 @@ mountain_bike_parts = Parts.new([chain, mountain_tire, rear_shock, front_shock])
 mountain_bike = Bicycle.new(size: 'L', parts: mountain_bike_parts)
 puts mountain_bike.size
 puts mountain_bike.spares
+puts mountain_bike.spares.size
+puts mountain_bike.parts.size
