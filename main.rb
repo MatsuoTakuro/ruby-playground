@@ -11,113 +11,46 @@ class Bicycle
   end
 end
 
+require 'forwardable'
 class Parts
-  attr_reader :chain, :tire_size
+  extend Forwardable
+  def_delegators :@parts, :size, :each
+  include Enumerable
 
-  def initialize(args = {})
-    @chain = args[:chain] || default_chain
-    @tire_size = args[:tire_size] || default_tire_size
-    post_initialize(args)
+  attr_reader :parts
+
+  def initialize(parts)
+    @parts = parts
   end
 
   def spares
-    {
-      tire_size: tire_size,
-      chain: chain
-    }
-      .merge(local_spares)
-  end
-
-  private
-
-  def post_initialize(_args)
-    nil
-  end
-
-  def local_spares
-    {}
-  end
-
-  def default_chain
-    '10-speed'
-  end
-
-  def default_tire_size
-    raise NotImplementedError,
-          "#{self.class} class cannot still respond to this method."
+    parts.select(&:needs_spare)
   end
 end
 
-class RoadBikeParts < Parts
-  attr_reader :tape_color
+class Part
+  attr_reader :name, :description, :needs_spare
 
-  private
-
-  def post_initialize(args)
-    @tape_color = args[:tape_color]
-  end
-
-  def local_spares
-    { tape_color: tape_color }
-  end
-
-  def default_tire_size
-    '23'
+  def initialize(args)
+    @name = args[:name]
+    @description = args[:description]
+    @needs_spare = args.fetch(:needs_spare, true)
   end
 end
 
-class MountainBikeParts < Parts
-  attr_reader :front_shock, :rear_shock
+chain         = Part.new(name: 'chain',         description: '10-speed')
+road_tire     = Part.new(name: 'road_tire',     description: '23')
+tape          = Part.new(name: 'tape',          description: 'red')
+mountain_tire = Part.new(name: 'mountain_tire', description: '2.1')
+rear_shock    = Part.new(name: 'rear_shock',    description: 'Fox')
+front_shock   = Part.new(name: 'front_shock',   description: 'Manitou', needs_spare: false)
 
-  private
+road_bike_parts = Parts.new([chain, road_tire, tape])
+road_bike = Bicycle.new(size: 'L', parts: road_bike_parts)
+puts road_bike.size
+puts road_bike.spares
 
-  def post_initialize(args)
-    @front_shock = args[:front_shock]
-    @rear_shock = args[:rear_shock]
-  end
-
-  def local_spares
-    { rear_shock: rear_shock }
-  end
-
-  def default_tire_size
-    '2.1'
-  end
-end
-
-class RecumbentBikeParts < Parts
-  attr_reader :flag
-
-  private
-
-  def post_initialize(args)
-    @flag = args[:flag]
-  end
-
-  def local_spares
-    { flag: flag }
-  end
-
-  def default_chain
-    '9-speed'
-  end
-
-  def default_tire_size
-    '28'
-  end
-end
-
-road_bike = Bicycle.new(size: 'L',
-                        parts: RoadBikeParts.new(tape_color: 'Red'))
-road_bike.size
-road_bike.spares
-
-mountain_bike = Bicycle.new(size: 'L',
-                            parts: MountainBikeParts.new(rear_shock: 'Fox'))
-mountain_bike.size
-mountain_bike.spares
-
-bent_bike = Bicycle.new(size: 'L',
-                        parts: RecumbentBikeParts.new(flag: 'tall and orange'))
-bent_bike.size
-bent_bike.spares
+mountain_bike_parts = Parts.new([chain, mountain_tire, rear_shock, front_shock])
+mountain_bike = Bicycle.new(size: 'L', parts: mountain_bike_parts)
+puts mountain_bike.size
+puts mountain_bike.spares
