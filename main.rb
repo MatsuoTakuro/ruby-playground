@@ -1,22 +1,32 @@
 require './lib/bicycle'
 require './lib/parts'
 require './lib/part'
+require './lib/parts_factory'
 
-chain         = Part.new(name: 'chain',         description: '10-speed')
-road_tire     = Part.new(name: 'road_tire',     description: '23')
-tape          = Part.new(name: 'tape',          description: 'red')
-mountain_tire = Part.new(name: 'mountain_tire', description: '2.1')
-rear_shock    = Part.new(name: 'rear_shock',    description: 'Fox')
-front_shock   = Part.new(name: 'front_shock',   description: 'Manitou', needs_spare: false)
+class Main
+  include PartsFactory
 
-road_bike_parts = Parts.new([chain, road_tire, tape])
-road_bike = Bicycle.new(size: 'L', parts: road_bike_parts)
-puts road_bike.size
-puts road_bike.spares
+  def self.do_this
+    road_config =
+      [
+        %w[chain 10-speed],
+        %w[tire_size 23],
+        %w[tape_color red]
+      ]
 
-mountain_bike_parts = Parts.new([chain, mountain_tire, rear_shock, front_shock])
-mountain_bike = Bicycle.new(size: 'L', parts: mountain_bike_parts)
-puts mountain_bike.size
-puts mountain_bike.spares
-puts mountain_bike.spares.size
-puts mountain_bike.parts.size
+    mountain_config =
+      [
+        %w[chain 10-speed],
+        %w[tire_size 2.1],
+        ['front_shock', 'Maintou', false],
+        %w[rear_shock Fox]
+      ]
+
+    road_parts = PartsFactory.build(road_config)
+    puts road_parts
+    mountain_parts = PartsFactory.build(mountain_config)
+    puts mountain_parts
+  end
+end
+
+Main.do_this
